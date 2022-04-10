@@ -1,7 +1,7 @@
 <!--
  * @Author: qin
  * @Date: 2022-04-10 19:35:14
- * @LastEditTime: 2022-04-10 23:45:04
+ * @LastEditTime: 2022-04-11 03:23:46
  * @FilePath: \my-ui-lib\my-ui\lib\Loading\src\Loading.vue
  *  -> The best way to explain it is to do it
 -->
@@ -26,13 +26,7 @@
 </template>
 
 <script>
-import {
-  defineComponent,
-  onMounted,
-  ref,
-  watch,
-  watchEffect,
-} from 'vue';
+import { defineComponent, onBeforeMount, onMounted, ref } from 'vue';
 
 export default defineComponent({
   name: 'Loading',
@@ -69,15 +63,17 @@ export default defineComponent({
   setup(props) {
     const tag = ref(false);
 
+    const handle = () => {
+      tag.value = !tag.value;
+    };
+
     onMounted(() => {
-      if (props.show) {
-        tag.value = !tag.value;
-      } else {
-        tag.value = false;
-      }
+      handle();
     });
+
     return {
       tag,
+      handle,
     };
   },
 });
@@ -106,6 +102,8 @@ export default defineComponent({
   .h-loading {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: 5px 10px;
     color: #fff;
     text-align: center;
@@ -114,6 +112,7 @@ export default defineComponent({
       animation: iconfont-rotate 1s linear infinite;
     }
     .h-loading-img {
+      display: block;
       width: 20px;
       height: 20px;
       object-fit: contain;
